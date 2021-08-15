@@ -1116,6 +1116,7 @@ function paintform($rep){
 	global $pallets_dat;
 
 	$pwd = trim(filter_input(INPUT_POST, 'pwd'));
+	$imgfile = filter_input(INPUT_POST, 'img');
 
 	//ツール
 	if (isset($_POST["tools"])) {
@@ -1129,6 +1130,12 @@ function paintform($rep){
 
 	$picw = filter_input(INPUT_POST, 'picw',FILTER_VALIDATE_INT);
 	$pich = filter_input(INPUT_POST, 'pich',FILTER_VALIDATE_INT);
+
+	if($mode==="contpaint"){
+		list($picw,$pich)=getimagesize(IMG_DIR.$imgfile);//キャンバスサイズ
+
+	}
+
 	$anime = isset($_POST["anime"]) ? true : false;
 	$var_b['anime'] = $anime;
 
@@ -1136,6 +1143,7 @@ function paintform($rep){
 	setcookie("toolc", $tool , time()+(86400*SAVE_COOKIE));//アプレット選択
 	setcookie("picwc", $picw , time()+(86400*SAVE_COOKIE));//幅
 	setcookie("pichc", $pich , time()+(86400*SAVE_COOKIE));//高さ
+
 	
 	
 	if($picw < 300) $picw = 300;
@@ -1454,7 +1462,7 @@ function incontinue($no) {
 
 	try{
 		$db = new PDO("sqlite:rois.db");
-		$sql = "SELECT * FROM tablelog WHERE picfile=$no ORDER BY tree DESC";
+		$sql = "SELECT * FROM tablelog WHERE picfile='$no' ORDER BY tree DESC";
 		$posts = $db->query($sql);
 
 		$oya = array();
