@@ -12,7 +12,16 @@
 		<link rel="stylesheet" href="templates/{{$themedir}}/css/mono_dev.min.css" id="css5" disabled>
 		<link rel="stylesheet" href="templates/{{$themedir}}/css/mono_sql.min.css" id="css6" disabled>
 		<script src="templates/{{$themedir}}/switchcss.js"></script>
-	</head>
+
+	<script>
+	function SetPal(obj){
+    var palIdx = obj.selectedIndex;
+	    SetCookie("palettIdx",palIdx);
+    window.location.reload();
+}
+	</script>
+</head>
+
 	<body>
 		<header id="header">
 			<h1><a href="{{$self}}">{{$btitle}}</a></h1>
@@ -49,13 +58,13 @@
 							</select>
 							<label for="palettes">パレット</label>
 							@if ($select_palettes)
-							<select name="palettes" id="palettes">
+							<select name="palettes" id="palettes" onchange="SetPal(this);">
 								@foreach ($pallets_dat as $palette)
 								<option value="{{$pallets_dat[$loop->index][1]}}">{{$pallets_dat[$loop->index][0]}}</option>
 								@endforeach
 							</select>
 							@else
-							<select name="palettes" id="palettes">
+							<select name="palettes" id="palettes" onchange="SetPal(this);">
 								<option value="neo">標準</option>
 							</select>
 							@endif
@@ -276,7 +285,9 @@
 					</form>
 					<script>
 						colorIdx = GetCookie('colorIdx');
+						palIdx = GetCookie('palettIdx');
 						document.getElementById("mystyle").selectedIndex = colorIdx;
+						document.getElementById("palettes").selectedIndex = palIdx;
 					</script>
 				</section>
 			</div>
