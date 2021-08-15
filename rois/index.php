@@ -1131,6 +1131,12 @@ function paintform($rep){
 	$pich = filter_input(INPUT_POST, 'pich',FILTER_VALIDATE_INT);
 	$anime = isset($_POST["anime"]) ? true : false;
 	$var_b['anime'] = $anime;
+
+		//Cookie保存
+	setcookie("toolc", $tool , time()+(86400*SAVE_COOKIE));//アプレット選択
+	setcookie("picwc", $picw , time()+(86400*SAVE_COOKIE));//幅
+	setcookie("pichc", $pich , time()+(86400*SAVE_COOKIE));//高さ
+	
 	
 	if($picw < 300) $picw = 300;
 	if($pich < 300) $pich = 300;
